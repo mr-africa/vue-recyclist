@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-recyclist">
+  <div :class="['vue-recyclist', fixedItemHeight ? 'vue-recyclist--scroll-auto': 'vue-recyclist--scroll-y']">
     <div ref="list" class="vue-recyclist-items" :style="{height: height + 'px'}">
       <div v-for="(item, index) in visibleItems" class="vue-recyclist-item" :style="{transform: 'translate3d(0,' + item.top + 'px,0)'}">
         <div v-show="tombstone" :class="{'vue-recyclist-transition': tombstone}" :style="{opacity: +!item.loaded}">
@@ -14,7 +14,7 @@
       <div class="vue-recyclist-pool">
         <div :ref="'item'+index" v-for="(item, index) in items" v-if="!item.tomb && !item.height"
           class="vue-recyclist-item vue-recyclist-invisible">
-          <slot name="item" :data="item.data"></slot>
+          <slot name="item" :data="item.data" :index="index"></slot>
         </div>
         <div ref="tomb" class="vue-recyclist-item vue-recyclist-invisible">
           <slot name="tombstone"></slot>
@@ -27,7 +27,7 @@
       :style="{visibility: loading ? 'visible' : 'hidden'}">
       <slot name="spinner">
         <div class="vue-recyclist-loading-content">
-          <div class="cssloading-circle spinner"></div>
+          <div class="cssloading-circle vue-recyclist-spinner"></div>
         </div>
       </slot>
     </div>
@@ -94,6 +94,10 @@
       nomore: {
         type: Boolean,
         default: false // Whether to show 'no more data' status bar
+      },
+      fixedItemHeight: {
+        type: Boolean,
+        default: true // item height fixed or dynamic
       }
     },
     watch: {
@@ -248,46 +252,51 @@
   $duration: 500ms;
   .vue-recyclist {
     overflow-x: hidden;
+  }
+  .vue-recyclist--scroll-auto {
     overflow-y: auto;
-    &.vue-recyclist-scrollable {
-      -webkit-overflow-scrolling: touch;
-    }
-    .vue-recyclist-items {
-      position: relative;
-      margin: 0;
-      padding: 0;
-      .vue-recyclist-invisible {
-        top: -1000px;
-        visibility: hidden;
-      }
-      .vue-recyclist-item {
-        position: absolute;
-        width: 100%;
-        .vue-recyclist-transition {
-          position: absolute;
-          opacity: 0;
-          transition-property: opacity;
-          transition-duration: $duration;
-        }
-      }
-    }
-    .vue-recyclist-loading {
-      overflow: hidden;
-      .vue-recyclist-loading-content {
-        width: 100%;
-        text-align: center;
-        .spinner {
-          margin: 10px auto;
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
-    .vue-recyclist-nomore {
-      overflow: hidden;
-      margin: 10px auto;
-      height: 20px;
-      text-align: center;
-    }
+  }
+  .vue-recyclist--scroll-y {
+    overflow-y: scroll;
+  }
+  .vue-recyclist-scrollable {
+    -webkit-overflow-scrolling: touch;
+  }
+  .vue-recyclist-items {
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+  .vue-recyclist-invisible {
+    top: -1000px;
+    visibility: hidden;
+  }
+  .vue-recyclist-item {
+    position: absolute;
+    width: 100%;
+  }
+  .vue-recyclist-transition {
+    position: absolute;
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: $duration;
+  }
+  .vue-recyclist-loading {
+    overflow: hidden;
+  }
+  .vue-recyclist-loading-content {
+    width: 100%;
+    text-align: center;
+  }
+  .vue-recyclist-spinner {
+    margin: 10px auto;
+    width: 20px;
+    height: 20px;
+  }
+  .vue-recyclist-nomore {
+    overflow: hidden;
+    margin: 10px auto;
+    height: 20px;
+    text-align: center;
   }
 </style>
