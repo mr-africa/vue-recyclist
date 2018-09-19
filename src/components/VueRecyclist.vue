@@ -1,5 +1,8 @@
 <template>
   <div :class="['vue-recyclist', fixedItemHeight ? 'vue-recyclist--scroll-auto': 'vue-recyclist--scroll-y']">
+    <div class="vue-recyclist-header">
+      <slot name="header" />
+    </div>
     <div ref="list" class="vue-recyclist-items" :style="{height: height + 'px'}">
       <div v-for="(item, index) in visibleItems" class="vue-recyclist-item" :style="{transform: 'translate3d(0,' + item.top + 'px,0)'}">
         <div v-show="tombstone" :class="{'vue-recyclist-transition': tombstone}" :style="{opacity: +!item.loaded}">
@@ -37,6 +40,9 @@
       <slot name="nomore">
         <div>End of list</div>
       </slot>
+    </div>
+    <div class="vue-recyclist-footer">
+      <slot name="footer" />
     </div>
   </div>
 </template>
@@ -252,6 +258,7 @@
   $duration: 500ms;
   .vue-recyclist {
     overflow-x: hidden;
+    position: relative;
   }
   .vue-recyclist--scroll-auto {
     overflow-y: auto;
@@ -263,6 +270,7 @@
     -webkit-overflow-scrolling: touch;
   }
   .vue-recyclist-items {
+    z-index: 1;
     position: relative;
     margin: 0;
     padding: 0;
@@ -298,5 +306,17 @@
     margin: 10px auto;
     height: 20px;
     text-align: center;
+  }
+  .vue-recyclist-header {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 2;
+    top: 0;
+  }
+  .vue-recyclist-footer {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 2;
+    bottom: 0;
   }
 </style>

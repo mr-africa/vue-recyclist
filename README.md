@@ -1,4 +1,4 @@
-# vue-recyclist (not maintained)
+# vue-recyclist
 
 > Infinite scroll list for Vue.js (v2.1+) with DOM recycling.
 
@@ -45,6 +45,10 @@ or
       :loadmore = "loadmore"
       :spinner = "spinner"
       :nomore = "nomore">
+      <!-- header slot -->
+      <template slot="header">
+        ...
+      </template>
       <!-- tombstone slot -->
       <template slot="tombstone" scope="props">
         ...
@@ -57,6 +61,10 @@ or
       <div slot="spinner">Loading...</div>
       <!-- end of list -->
       <div slot="nomore">No More Data</div>
+      <!-- footer slot -->
+      <template slot="footer">
+        ...
+      </template>
     </vue-recyclist>
     ...
   </div>
