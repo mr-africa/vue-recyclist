@@ -308,14 +308,14 @@
     text-align: center;
   }
   .vue-recyclist-header {
-    position: sticky;
     position: -webkit-sticky;
+    position: sticky;
     z-index: 2;
     top: 0;
   }
   .vue-recyclist-footer {
-    position: sticky;
     position: -webkit-sticky;
+    position: sticky;
     z-index: 2;
     bottom: 0;
   }
