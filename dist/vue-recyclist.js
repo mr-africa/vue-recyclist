@@ -483,6 +483,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -543,6 +574,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       type: Boolean,
       default: true // item height fixed or dynamic
     }
+
   },
   watch: {
     list: function list(arr) {
@@ -616,6 +648,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Promise.all(loads).then(function () {
         _this.updateItemTop();
       });
+      this.$refs.list.style.width = this.$el.scrollWidth + 'px';
     },
     setItem: function setItem(index, data) {
       this.$set(this.items, index, {
