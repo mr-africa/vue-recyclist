@@ -648,7 +648,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Promise.all(loads).then(function () {
         _this.updateItemTop();
       });
-      this.$refs.list.style.width = this.$el.scrollWidth + 'px';
+      if (this.$refs.list) {
+        this.$refs.list.style.width = this.$el.scrollWidth + 'px';
+      }
     },
     setItem: function setItem(index, data) {
       this.$set(this.items, index, {
