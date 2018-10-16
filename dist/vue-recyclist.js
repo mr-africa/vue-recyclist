@@ -514,225 +514,243 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      name: 'VueRecyclist',
-      items: [], // Wrapped full list items
-      height: 0, // Full list height
-      loadings: [], // Loading status queue
-      start: 0, // Visible items start index
-      startOffset: 0 // Start item offset
-    };
-  },
-
-  computed: {
-    visibleItems: function visibleItems() {
-      return this.items.slice(Math.max(0, this.start - this.size), Math.min(this.items.length, this.start + this.size));
-    },
-    containerHeight: function containerHeight() {
-      return this.$el && this.$el.offsetHeight || 0;
-    },
-    tombHeight: function tombHeight() {
-      return this.tombstone ? this.$refs.tomb && this.$refs.tomb.offsetHeight : 0;
-    },
-    loading: function loading() {
-      return this.loadings.length;
-    }
-  },
-  props: {
-    list: {
-      type: Array,
-      required: true
-    },
-    tombstone: {
-      type: Boolean,
-      default: false // Whether to show tombstones.
-    },
-    size: {
-      type: Number,
-      default: 20 // The number of items added each time.
-    },
-    offset: {
-      type: Number,
-      default: 200 // The number of pixels of additional length to allow scrolling to.
-    },
-    loadmore: {
-      type: Function,
-      required: true // The function of loading more items.
-    },
-    spinner: {
-      type: Boolean,
-      default: true // Whether to show loading spinner.
-    },
-    nomore: {
-      type: Boolean,
-      default: false // Whether to show 'no more data' status bar
-    },
-    fixedItemHeight: {
-      type: Boolean,
-      default: true // item height fixed or dynamic
-    }
-
-  },
-  watch: {
-    list: function list(arr) {
-      if (arr.length) {
-        this.loadings.pop();
-        if (!this.loading) {
-          this.loadItems();
+    props: {
+        list: {
+            type: Array,
+            required: true
+        },
+        tombstone: {
+            type: Boolean,
+            default: false // Whether to show tombstones.
+        },
+        size: {
+            type: Number,
+            default: 20 // The number of items added each time.
+        },
+        offset: {
+            type: Number,
+            default: 200 // The number of pixels of additional length to allow scrolling to.
+        },
+        loadmore: {
+            type: Function,
+            required: true // The function of loading more items.
+        },
+        spinner: {
+            type: Boolean,
+            default: true // Whether to show loading spinner.
+        },
+        nomore: {
+            type: Boolean,
+            default: false // Whether to show 'no more data' status bar
+        },
+        fixedItemHeight: {
+            type: Boolean,
+            default: true // item height fixed or dynamic
+        },
+        bypass: {
+            type: Boolean,
+            default: false // render list as is w/o recycling
         }
-      } else {
+    },
+    data: function data() {
+        return {
+            name: 'VueRecyclist',
+            items: [], // Wrapped full list items
+            height: 0, // Full list height
+            loadings: [], // Loading status queue
+            start: 0, // Visible items start index
+            startOffset: 0 // Start item offset
+        };
+    },
+
+    computed: {
+        visibleItems: function visibleItems() {
+            if (this.bypass) {
+                return this.items;
+            }
+            return this.items.slice(Math.max(0, this.start - this.size), Math.min(this.items.length, this.start + this.size));
+        },
+        topPadding: function topPadding() {
+            if (this.bypass) {
+                return 0;
+            }
+            var firstItem = this.visibleItems[0];
+            return firstItem ? firstItem.top : '0';
+        },
+        containerHeight: function containerHeight() {
+            return this.$el && this.$el.offsetHeight || 0;
+        },
+        tombHeight: function tombHeight() {
+            return this.tombstone ? this.$refs.tomb && this.$refs.tomb.offsetHeight : 0;
+        },
+        loading: function loading() {
+            return this.loadings.length;
+        }
+    },
+    watch: {
+        list: function list(arr) {
+            if (arr.length) {
+                this.loadings.pop();
+                if (!this.loading) {
+                    this.loadItems();
+                }
+            } else {
+                this.init();
+            }
+        },
+        items: function items(arr) {
+            if (arr.length > this.list.length) {
+                this.getItems();
+            }
+        }
+    },
+    mounted: function mounted() {
+        this.$el.addEventListener('scroll', this.onScroll.bind(this));
+        window.addEventListener('resize', this.onResize.bind(this));
         this.init();
-      }
     },
-    items: function items(arr) {
-      if (arr.length > this.list.length) {
-        this.getItems();
-      }
-    }
-  },
-  mounted: function mounted() {
-    this.$el.addEventListener('scroll', this.onScroll.bind(this));
-    window.addEventListener('resize', this.onResize.bind(this));
-    this.init();
-  },
+    destroyed: function destroyed() {
+        this.$el.removeEventListener('scroll', this.onScroll.bind(this));
+        window.removeEventListener('resize', this.onResize.bind(this));
+    },
 
-  methods: {
-    init: function init() {
-      this.reset();
-      this.load();
-    },
-    reset: function reset() {
-      this.items = [];
-      this.height = this.top = this.start = 0;
-      this.$el.scrollTop = 0;
-    },
-    load: function load() {
-      if (this.tombstone) {
-        this.items.length += this.size;
-        this.loadItems();
-      } else if (!this.loading) {
-        this.getItems();
-      }
-    },
-    getItems: function getItems() {
-      this.loadings.push(1);
-      this.loadmore();
-    },
-    loadItems: function loadItems() {
-      var _this = this;
+    methods: {
+        init: function init() {
+            this.reset();
+            this.load();
+        },
+        reset: function reset() {
+            this.items = [];
+            this.height = this.top = this.start = 0;
+            this.$el.scrollTop = 0;
+        },
+        load: function load() {
+            if (this.tombstone) {
+                this.items.length += this.size;
+                this.loadItems();
+            } else if (!this.loading) {
+                this.getItems();
+            }
+        },
+        getItems: function getItems() {
+            this.loadings.push(1);
+            this.loadmore();
+        },
+        loadItems: function loadItems() {
+            var _this = this;
 
-      var loads = [];
-      var start = 0;
-      var end = this.tombstone ? this.items.length : this.list.length;
+            var loads = [];
+            var start = 0;
+            var end = this.tombstone ? this.items.length : this.list.length;
 
-      var _loop = function _loop(i) {
-        if (_this.items[i] && _this.items[i].loaded) {
-          return 'continue';
+            var _loop = function _loop(i) {
+                if (_this.items[i] && _this.items[i].loaded) {
+                    return 'continue';
+                }
+                _this.setItem(i, _this.list[i] || null);
+                // update newly added items position
+                loads.push(_this.$nextTick().then(function () {
+                    _this.updateItemHeight(i);
+                }));
+            };
+
+            for (var i = start; i < end; i++) {
+                var _ret = _loop(i);
+
+                if (_ret === 'continue') continue;
+            }
+            // update items top and full list height
+            Promise.all(loads).then(function () {
+                _this.updateItemTop();
+            });
+            /* if (this.$refs.list) {
+              this.$refs.list.style.width = this.$el.scrollWidth + 'px'
+            } */
+        },
+        setItem: function setItem(index, data) {
+            this.$set(this.items, index, {
+                data: data || {},
+                height: 0,
+                top: -1000,
+                tomb: !data,
+                loaded: !!data
+            });
+        },
+        updateItemHeight: function updateItemHeight(index) {
+            // update item height
+            var cur = this.items[index];
+            var dom = this.$refs['item' + index];
+            if (dom && dom[0]) {
+                cur.height = dom[0].offsetHeight;
+            } else {
+                // item is tombstone
+                cur.height = this.tombHeight;
+            }
+        },
+        updateItemTop: function updateItemTop() {
+            // loop all items to update item top and list height
+            this.height = 0;
+            for (var i = 0; i < this.items.length; i++) {
+                var pre = this.items[i - 1];
+                this.items[i].top = pre ? pre.top + pre.height : 0;
+                this.height += this.items[i].height;
+            }
+            // update scroll top when needed
+            if (this.startOffset) {
+                this.setScrollTop();
+            }
+            this.updateIndex();
+            this.makeScrollable();
+        },
+        updateIndex: function updateIndex() {
+            // update visible items start index
+            var top = this.$el.scrollTop;
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].top > top) {
+                    this.start = Math.max(0, i - 1);
+                    break;
+                }
+            }
+            // scrolling does not need recalculate scrolltop
+            // this.getStartItemOffset()
+        },
+        getStartItemOffset: function getStartItemOffset() {
+            if (this.items[this.start]) {
+                this.startOffset = this.items[this.start].top - this.$el.scrollTop;
+            }
+        },
+        setScrollTop: function setScrollTop() {
+            if (this.items[this.start]) {
+                this.$el.scrollTop = this.items[this.start].top - this.startOffset;
+                // reset start item offset
+                this.startOffset = 0;
+            }
+        },
+        makeScrollable: function makeScrollable() {
+            // make ios -webkit-overflow-scrolling scrollable
+            this.$el.classList.add('vue-recyclist-scrollable');
+        },
+        onScroll: function onScroll() {
+            if (this.bypass) {
+                return;
+            }
+            if (this.$el.scrollTop + this.$el.offsetHeight > this.height - this.offset) {
+                this.load();
+            }
+            this.updateIndex();
+        },
+        onResize: function onResize() {
+            this.getStartItemOffset();
+            this.items.forEach(function (item) {
+                item.loaded = false;
+            });
+            this.loadItems();
         }
-        _this.setItem(i, _this.list[i] || null);
-        // update newly added items position
-        loads.push(_this.$nextTick().then(function () {
-          _this.updateItemHeight(i);
-        }));
-      };
-
-      for (var i = start; i < end; i++) {
-        var _ret = _loop(i);
-
-        if (_ret === 'continue') continue;
-      }
-      // update items top and full list height
-      Promise.all(loads).then(function () {
-        _this.updateItemTop();
-      });
-      if (this.$refs.list) {
-        this.$refs.list.style.width = this.$el.scrollWidth + 'px';
-      }
-    },
-    setItem: function setItem(index, data) {
-      this.$set(this.items, index, {
-        data: data ? data : {},
-        height: 0,
-        top: -1000,
-        tomb: !data,
-        loaded: !!data
-      });
-    },
-    updateItemHeight: function updateItemHeight(index) {
-      // update item height
-      var cur = this.items[index];
-      var dom = this.$refs['item' + index];
-      if (dom && dom[0]) {
-        cur.height = dom[0].offsetHeight;
-      } else {
-        // item is tombstone
-        cur.height = this.tombHeight;
-      }
-    },
-    updateItemTop: function updateItemTop() {
-      // loop all items to update item top and list height
-      this.height = 0;
-      for (var i = 0; i < this.items.length; i++) {
-        var pre = this.items[i - 1];
-        this.items[i].top = pre ? pre.top + pre.height : 0;
-        this.height += this.items[i].height;
-      }
-      // update scroll top when needed
-      if (this.startOffset) {
-        this.setScrollTop();
-      }
-      this.updateIndex();
-      this.makeScrollable();
-    },
-    updateIndex: function updateIndex() {
-      // update visible items start index
-      var top = this.$el.scrollTop;
-      for (var i = 0; i < this.items.length; i++) {
-        if (this.items[i].top > top) {
-          this.start = Math.max(0, i - 1);
-          break;
-        }
-      }
-      // scrolling does not need recalculate scrolltop
-      // this.getStartItemOffset()
-    },
-    getStartItemOffset: function getStartItemOffset() {
-      if (this.items[this.start]) {
-        this.startOffset = this.items[this.start].top - this.$el.scrollTop;
-      }
-    },
-    setScrollTop: function setScrollTop() {
-      if (this.items[this.start]) {
-        this.$el.scrollTop = this.items[this.start].top - this.startOffset;
-        // reset start item offset
-        this.startOffset = 0;
-      }
-    },
-    makeScrollable: function makeScrollable() {
-      // make ios -webkit-overflow-scrolling scrollable
-      this.$el.classList.add('vue-recyclist-scrollable');
-    },
-    onScroll: function onScroll() {
-      if (this.$el.scrollTop + this.$el.offsetHeight > this.height - this.offset) {
-        this.load();
-      }
-      this.updateIndex();
-    },
-    onResize: function onResize() {
-      this.getStartItemOffset();
-      this.items.forEach(function (item) {
-        item.loaded = false;
-      });
-      this.loadItems();
     }
-  },
-  destroyed: function destroyed() {
-    this.$el.removeEventListener('scroll', this.onScroll.bind(this));
-    window.removeEventListener('resize', this.onResize.bind(this));
-  }
 });
 
 /***/ }),
@@ -760,7 +778,7 @@ exports = module.exports = __webpack_require__(0)();
 
 
 // module
-exports.push([module.i, ".vue-recyclist[data-v-ff0640b8]{overflow-x:hidden;position:relative}.vue-recyclist--scroll-auto[data-v-ff0640b8]{overflow-y:auto}.vue-recyclist--scroll-y[data-v-ff0640b8]{overflow-y:scroll}.vue-recyclist-scrollable[data-v-ff0640b8]{-webkit-overflow-scrolling:touch}.vue-recyclist-items[data-v-ff0640b8]{z-index:1;position:relative;margin:0;padding:0}.vue-recyclist-invisible[data-v-ff0640b8]{top:-1000px;visibility:hidden}.vue-recyclist-item[data-v-ff0640b8]{position:absolute;width:100%}.vue-recyclist-transition[data-v-ff0640b8]{position:absolute;opacity:0;transition-property:opacity;transition-duration:.5s}.vue-recyclist-loading[data-v-ff0640b8]{overflow:hidden}.vue-recyclist-loading-content[data-v-ff0640b8]{width:100%;text-align:center}.vue-recyclist-spinner[data-v-ff0640b8]{margin:10px auto;width:20px;height:20px}.vue-recyclist-nomore[data-v-ff0640b8]{overflow:hidden;margin:10px auto;height:20px;text-align:center}.vue-recyclist-header[data-v-ff0640b8]{position:-webkit-sticky;position:sticky;z-index:2;top:0}.vue-recyclist-footer[data-v-ff0640b8]{position:-webkit-sticky;position:sticky;z-index:2;bottom:0}", ""]);
+exports.push([module.i, ".vue-recyclist[data-v-ff0640b8]{overflow-x:hidden;position:relative}.vue-recyclist--scroll-auto[data-v-ff0640b8]{overflow-y:auto}.vue-recyclist--scroll-y[data-v-ff0640b8]{overflow-y:scroll}.vue-recyclist-scrollable[data-v-ff0640b8]{-webkit-overflow-scrolling:touch}.vue-recyclist-items[data-v-ff0640b8]{z-index:1;position:relative;margin:0;padding:0;transform:translateZ(0)}.vue-recyclist-invisible[data-v-ff0640b8]{top:-1000px;visibility:hidden}.vue-recyclist-item[data-v-ff0640b8]{position:relative;width:100%}.vue-recyclist-transition[data-v-ff0640b8]{opacity:0;transition-property:opacity;transition-duration:.5s}.vue-recyclist-loading[data-v-ff0640b8]{overflow:hidden}.vue-recyclist-loading-content[data-v-ff0640b8]{width:100%;text-align:center}.vue-recyclist-spinner[data-v-ff0640b8]{margin:10px auto;width:20px;height:20px}.vue-recyclist-nomore[data-v-ff0640b8]{overflow:hidden;margin:10px auto;height:20px;text-align:center}.vue-recyclist-header[data-v-ff0640b8]{position:-webkit-sticky;position:sticky;z-index:2;top:0;align-self:flex-start;transform:translateZ(0)}.vue-recyclist-footer[data-v-ff0640b8]{position:-webkit-sticky;position:sticky;z-index:2;bottom:0;align-self:flex-end;transform:translateZ(0)}", ""]);
 
 // exports
 
@@ -792,14 +810,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     ref: "list",
     staticClass: "vue-recyclist-items",
     style: ({
-      height: _vm.height + 'px'
+      height: _vm.height + 'px',
+      'padding-top': _vm.topPadding + 'px'
     })
   }, [_vm._l((_vm.visibleItems), function(item, index) {
     return _c('div', {
-      staticClass: "vue-recyclist-item",
-      style: ({
-        transform: 'translate3d(0,' + item.top + 'px,0)'
-      })
+      key: index,
+      staticClass: "vue-recyclist-item"
     }, [_c('div', {
       directives: [{
         name: "show",
@@ -828,6 +845,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "vue-recyclist-pool"
   }, [_vm._l((_vm.items), function(item, index) {
     return (!item.tomb && !item.height) ? _c('div', {
+      key: index,
       ref: 'item' + index,
       refInFor: true,
       staticClass: "vue-recyclist-item vue-recyclist-invisible"
