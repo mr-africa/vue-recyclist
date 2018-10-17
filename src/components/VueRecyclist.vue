@@ -288,9 +288,6 @@
                 this.$el.classList.add('vue-recyclist-scrollable')
             },
             onScroll () {
-                if (this.bypass) {
-                    return
-                }
                 if (this.$el.scrollTop + this.$el.offsetHeight > this.height - this.offset) {
                     this.load()
                 }
