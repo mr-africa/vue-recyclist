@@ -220,9 +220,12 @@
                 Promise.all(loads).then(() => {
                     this.updateItemTop()
                 })
-                /* if (this.$refs.list) {
-                  this.$refs.list.style.width = this.$el.scrollWidth + 'px'
-                } */
+                this.adjustWidth()
+            },
+            adjustWidth () {
+                if (this.$refs.list) {
+                    this.$refs.list.style.width = this.$el.scrollWidth + 'px'
+                }
             },
             setItem (index, data) {
                 this.$set(this.items, index, {
