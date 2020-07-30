@@ -51,8 +51,9 @@
                         :index="index"
                     />
                 </div>
-                <div ref="tomb"
-                     class="vue-recyclist-item vue-recyclist-invisible"
+                <div
+                    ref="tomb"
+                    class="vue-recyclist-item vue-recyclist-invisible"
                 >
                     <slot name="tombstone" />
                 </div>
