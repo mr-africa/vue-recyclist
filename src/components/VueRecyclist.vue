@@ -19,13 +19,19 @@
             >
                 <div
                     v-show="tombstone"
-                    :class="{'vue-recyclist-transition': tombstone}"
+                    :class="{
+                        'vue-recyclist-transition': tombstone,
+                        'vue-recyclist__item--hidden': item.loaded,
+                    }"
                     :style="{opacity: +!item.loaded}"
                 >
                     <slot name="tombstone" />
                 </div>
                 <div
-                    :class="{'vue-recyclist-transition': tombstone}"
+                    :class="{
+                        'vue-recyclist-transition': tombstone,
+                        'vue-recyclist__item--hidden': !item.loaded,
+                    }"
                     :style="{opacity: +item.loaded}"
                 >
                     <slot
@@ -317,8 +323,8 @@ export default {
 
 </script>
 <style src="./cssloading.css"></style>
-<style lang="scss" scoped>
-    $duration: 500ms;
+<style>
+    --duration: 500ms;
     .vue-recyclist {
         overflow-x: hidden;
         position: relative;
@@ -347,10 +353,13 @@ export default {
         position: relative;
         width: 100%;
     }
+    .vue-recyclist__item--hidden {
+        display: none;
+    }
     .vue-recyclist-transition {
         opacity: 0;
         transition-property: opacity;
-        transition-duration: $duration;
+        transition-duration: var(--duration);
     }
     .vue-recyclist-loading {
         overflow: hidden;
