@@ -11,6 +11,12 @@
 ``` bash
 npm install -D vue-recyclist
 ```
+or
+
+
+``` bash
+yarn add vue-recyclist
+```
 
 ## Import
 
