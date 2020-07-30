@@ -19,13 +19,19 @@
             >
                 <div
                     v-show="tombstone"
-                    :class="{'vue-recyclist-transition': tombstone}"
+                    :class="{
+                        'vue-recyclist-transition': tombstone,
+                        'vue-recyclist__item--hidden': item.loaded,
+                    }"
                     :style="{opacity: +!item.loaded}"
                 >
                     <slot name="tombstone" />
                 </div>
                 <div
-                    :class="{'vue-recyclist-transition': tombstone}"
+                    :class="{
+                        'vue-recyclist-transition': tombstone,
+                        'vue-recyclist__item--hidden': !item.loaded,
+                    }"
                     :style="{opacity: +item.loaded}"
                 >
                     <slot
@@ -346,6 +352,9 @@ export default {
     .vue-recyclist-item {
         position: relative;
         width: 100%;
+    }
+    .vue-recyclist__item--hidden {
+        display: none;
     }
     .vue-recyclist-transition {
         opacity: 0;
