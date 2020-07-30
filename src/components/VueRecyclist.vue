@@ -317,8 +317,8 @@ export default {
 
 </script>
 <style src="./cssloading.css"></style>
-<style lang="scss" scoped>
-    $duration: 500ms;
+<style>
+    --duration: 500ms;
     .vue-recyclist {
         overflow-x: hidden;
         position: relative;
@@ -350,7 +350,7 @@ export default {
     .vue-recyclist-transition {
         opacity: 0;
         transition-property: opacity;
-        transition-duration: $duration;
+        transition-duration: var(--duration);
     }
     .vue-recyclist-loading {
         overflow: hidden;

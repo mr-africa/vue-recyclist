@@ -125,94 +125,111 @@
 
 </script>
 
-<style lang="scss">
-  html {
-    height: 100%;
-  }
+<style>
+    body,
+    html {
+        height: 100%
+    }
 
-  body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    body {
+        margin: 0;
+        padding: 0
+    }
+
     #app {
-      font-family: 'Avenir', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      color: #2c3e50;
-      overflow: hidden;
-      padding: 120px 20px 50px;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      background: #fff;
-      header {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #2c3e50;
+        overflow: hidden;
+        padding: 120px 20px 50px;
+        height: 100%;
+        background: #fff
+    }
+
+    #app,
+    #app header {
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box
+    }
+
+    #app header {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
         height: 120px;
-        text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        h1,
-        h2 {
-          font-weight: normal;
-          margin: 0;
-        }
-        h1 {
-          font-size: 24px;
-        }
-        h2 {
-          font-size: 14px;
-          a {
-            color: inherit;
-          }
-        }
-        a {
-          font-size: 12px;
-          text-decoration: underline;
-          margin-top: 10px;
-          cursor: pointer;
-        }
-      }
-      .info {
-        font-size: 12px;
-        color: #999;
-        a {
-          font-style: italic;
-          color: inherit;
-        }
-      }
-      .cssloading-circle {
-        background: #eee;
-      }
-      .vue-recyclist-item {
-        contain: layout;
-      }
+        align-items: center
     }
-  }
+
+    #app header h1,
+    #app header h2 {
+        font-weight: 400;
+        margin: 0
+    }
+
+    #app header h1 {
+        font-size: 24px
+    }
+
+    #app header h2 {
+        font-size: 14px
+    }
+
+    #app header h2 a {
+        color: inherit
+    }
+
+    #app header a {
+        font-size: 12px;
+        text-decoration: underline;
+        margin-top: 10px;
+        cursor: pointer
+    }
+
+    #app .info {
+        font-size: 12px;
+        color: #999
+    }
+
+    #app .info a {
+        font-style: italic;
+        color: inherit
+    }
+
+    #app .cssloading-circle {
+        background: #eee
+    }
+
+    #app .vue-recyclist-item {
+        contain: layout
+    }
 </style>
-<style lang="scss" scoped>
-  .list {
-    width: 375px;
-    max-width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    padding: 0;
-    border: 1px solid #ddd;
-    list-style-type: none;
-    text-align: center;
-    background: #eee;
-    .item {
-      display: flex;
-      padding: 10px 0;
-      width: 100%;
-      text-align: left;
-      .avatar {
+
+<style>
+    .list {
+        width: 375px;
+        max-width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0;
+        border: 1px solid #ddd;
+        list-style-type: none;
+        text-align: center;
+        background: #eee
+    }
+
+    .list .item {
+        display: flex;
+        padding: 10px 0;
+        width: 100%;
+        text-align: left
+    }
+
+    .list .item .avatar {
         border-radius: 50%;
         margin-left: 15px;
         margin-right: 6px;
@@ -221,45 +238,45 @@
         height: 48px;
         background-image: url('./images/unknown.jpg');
         background-size: cover;
-        outline: none;
-      }
-      p {
+        outline: none
+    }
+
+    .list .item p {
         margin: 0;
         word-wrap: break-word;
-        font-size: 14px;
-      }
-      &.tombstone {
-        p {
-          width: 100%;
-          height: 0.5em;
-          background-color: #ccc;
-          margin: 0.5em 0;
-        }
-      }
-      .bubble {
+        font-size: 14px
+    }
+
+    .list .item.tombstone p {
+        width: 100%;
+        height: .5em;
+        background-color: #ccc;
+        margin: .5em 0
+    }
+
+    .list .item .bubble {
         padding: 7px 10px;
         color: #333;
         background: #fff;
-        box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 2px rgba(0, 0, 0, .1);
         position: relative;
         max-width: 420px;
         min-width: 80px;
-        margin: 0 20px 0 5px;
-        &:before {
-          content: '';
-          border-style: solid;
-          border-width: 0 10px 10px 0;
-          border-color: transparent #fff transparent transparent;
-          position: absolute;
-          top: 0;
-          left: -10px;
-        }
-      }
-      .meta {
-        font-size: 0.8rem;
-        color: #999;
-        margin-top: 3px;
-      }
+        margin: 0 20px 0 5px
     }
-  }
+
+    .list .item .bubble:before {
+        content: '';
+        border-style: solid;
+        border-width: 0 10px 10px 0;
+        border-color: transparent #fff transparent transparent;
+        position: absolute;
+        top: 0;
+        left: -10px;
+    }
+    .list .item .meta {
+        font-size:.8rem;
+        color:#999;
+        margin-top:3px;
+    }
 </style>
