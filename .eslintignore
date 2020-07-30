@@ -1,0 +1,5 @@
+node_modules
+dist
+*.min.js
+*.js.map
+example/index.js
