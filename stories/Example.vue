@@ -46,19 +46,21 @@
       <!--<div slot="spinner">Loading Data</div>-->
       <!--<div slot="nomore">No More Data</div>-->
     </vue-recyclist>
-    <div ref="avatars"
-style="display:none">
-      <img src="./images/avatar0.jpg"/>
-      <img src="./images/avatar1.jpg"/>
-      <img src="./images/avatar2.jpg"/>
-      <img src="./images/avatar3.jpg"/>
+    <div
+        ref="avatars"
+        style="display:none"
+    >
+        <img src="./images/avatar0.jpg"/>
+        <img src="./images/avatar1.jpg"/>
+        <img src="./images/avatar2.jpg"/>
+        <img src="./images/avatar3.jpg"/>
     </div>
     <p class="info">Inspired by <a href="https://developers.google.com/web/updates/2016/07/infinite-scroller">Complexities of an Infinite Scroller</a></p>
   </div>
 </template>
 
 <script>
-import Data from './data.js'
+import Data from './data'
 import VueRecyclist from '../src'
 
 export default {
