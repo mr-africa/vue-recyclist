@@ -1,4 +1,4 @@
-import InfinityChat from './InfinityChat.vue'
+import InfinityChat from './InfinityChat'
 import Log from './Log'
 
 export default {
