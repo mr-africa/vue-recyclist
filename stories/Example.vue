@@ -58,7 +58,7 @@ style="display:none">
 </template>
 
 <script>
-import Data from './data'
+import Data from './data.js'
 import VueRecyclist from '../src'
 
 export default {

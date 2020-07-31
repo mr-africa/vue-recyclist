@@ -1,4 +1,4 @@
-import VueRecyclist from './components/VueRecyclist'
+import VueRecyclist from './components/VueRecyclist.vue'
 
 export default VueRecyclist
 

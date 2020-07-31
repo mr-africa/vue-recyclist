@@ -5,7 +5,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
     mode: 'development',
     entry: {
-        index: './example/main.js',
         'vue-recyclist': './src/index.js',
         'vue-recyclist.min': './src/index.js',
     },

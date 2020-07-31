@@ -9,7 +9,6 @@ module.exports = {
         'no-param-reassign': 0,
         indent: ['error', 4],
         semi: [2, 'never'],
-        'import/extensions': ['error', 'never'],
         'space-before-function-paren': ['error', 'always'],
         'import/no-named-as-default': 0,
         'function-paren-newline': ['error', 'consistent'],

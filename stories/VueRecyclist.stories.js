@@ -1,4 +1,4 @@
-import Example from './Example'
+import Example from './Example.vue'
 
 export default {
     title: 'vue-recyclist',
