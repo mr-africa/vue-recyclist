@@ -1,3 +1,5 @@
+![CI](https://github.com/mr-africa/vue-recyclist/workflows/CI/badge.svg)
+
 # vue-recyclist
 
 > Infinite scroll list for Vue.js (v2.1+) with DOM recycling.
