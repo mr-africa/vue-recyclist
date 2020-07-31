@@ -1,9 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
+    mode: 'development',
     entry: {
-        index: './example/main.js',
         'vue-recyclist': './src/index.js',
         'vue-recyclist.min': './src/index.js',
     },
@@ -19,6 +20,9 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',
+                options: {
+                    extractCSS: process.env.NODE_ENV === 'production',
+                },
             },
             {
                 test: /\.js$/,
@@ -33,8 +37,18 @@ module.exports = {
                     name: 'img/[name].[hash:7].[ext]',
                 },
             },
+            {
+                test: /\.css$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                ],
+            },
         ],
     },
+    plugins: [
+        new VueLoaderPlugin(),
+    ],
     resolve: {
         alias: {
             vue$: `vue/dist/vue.${process.env.NODE_ENV === 'production' ? 'min' : 'common'}.js`,
@@ -53,20 +67,10 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
     module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"',
-            },
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            sourceMap: true,
-            compress: {
-                warnings: false,
-            },
-        }),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
         }),
     ])
+
+    module.exports.mode = 'production'
 }

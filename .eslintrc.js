@@ -14,7 +14,7 @@ module.exports = {
         'function-paren-newline': ['error', 'consistent'],
         'vue/html-indent': 0,
         'vue/attributes-order': 0,
-        'no-unused-expressions': 0, // temporary, because of optional-chaining
+        'no-unused-expressions': 0,
         'vue/name-property-casing': ['error', 'kebab-case'],
         'vue/max-attributes-per-line': [2, {
             singleline: 1,
