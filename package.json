@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint ./{src,stories}/**/*.{js,vue}",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook --output-dir docs",
     "build": "./node_modules/.bin/vue-cli-service build --target lib --name vue-recyclist src/index.js"
   },
   "keywords": [
