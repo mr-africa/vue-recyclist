@@ -4,7 +4,7 @@
 
 > Infinite scroll list for Vue.js (v2.1+) with DOM recycling.
 
-## [Demo](https://xtongs.github.io/vue-recyclist/)
+## [Storybook](https://mr-africa.github.io/vue-recyclist/)
 
 ## Installation
 
