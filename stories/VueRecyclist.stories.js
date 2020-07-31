@@ -1,7 +1,10 @@
-import Example from './Example.vue'
+import InfinityChat from './InfinityChat.vue'
+import Log from './Log'
 
 export default {
     title: 'vue-recyclist',
 }
 
-export const Recyclist = () => Example
+export const RecyclistInfinityChat = () => InfinityChat
+
+export const RecyclistLog = () => Log

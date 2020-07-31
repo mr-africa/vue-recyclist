@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <h1>VueRecyclist</h1>
-      <h2>Infinite scroll list for Vue.js with DOM recycling. <a href="https://github.com/xtongs/vue-recyclist">Github</a></h2>
+      <h2>Infinite scroll list for Vue.js with DOM recycling. <a href="https://github.com/mr-africa/vue-recyclist">Github</a></h2>
       <a @click="tombstone = !tombstone">{{ tombstone ? 'hide' : 'show'}} tombstones</a>
     </header>
     <vue-recyclist
