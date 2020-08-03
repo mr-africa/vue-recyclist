@@ -248,7 +248,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"74d88daa-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueRecyclist.vue?vue&type=template&id=52d08a36&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"022f931f-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueRecyclist.vue?vue&type=template&id=16fd95d3&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:[
     'vue-recyclist',
     _vm.fixedItemHeight ? 'vue-recyclist--scroll-auto': 'vue-recyclist--scroll-y' ]},[_c('div',{staticClass:"vue-recyclist-header"},[_vm._t("header")],2),_c('div',{ref:"list",staticClass:"vue-recyclist-items",style:({height: _vm.height + 'px', 'padding-top': _vm.topPadding + 'px'})},[_vm._l((_vm.visibleItems),function(item,index){return _c('div',{key:index,staticClass:"vue-recyclist-item"},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.tombstone),expression:"tombstone"}],class:{
@@ -261,7 +261,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"vue-recyclist-loading-content"},[_c('div',{staticClass:"cssloading-circle vue-recyclist-spinner"})])}]
 
 
-// CONCATENATED MODULE: ./src/components/VueRecyclist.vue?vue&type=template&id=52d08a36&
+// CONCATENATED MODULE: ./src/components/VueRecyclist.vue?vue&type=template&id=16fd95d3&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/VueRecyclist.vue?vue&type=script&lang=js&
 //
@@ -451,6 +451,14 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
                 this.getItems()
             }
         },
+        nomore (value) {
+            if (value) {
+                this.height = 0
+                for (let i = 0; i < this.visibleItems.length; i += 1) {
+                    this.height += this.visibleItems[i].height
+                }
+            }
+        },
     },
     mounted () {
         this.$el.addEventListener('scroll', this.onScroll.bind(this))
@@ -468,7 +476,9 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
         },
         reset () {
             this.items = []
-            this.height = this.top = this.start = 0 // eslint-disable-line
+            this.height = 0
+            this.top = 0
+            this.start = 0
             this.$el.scrollTop = 0
         },
         load () {

@@ -185,6 +185,14 @@ export default {
                 this.getItems()
             }
         },
+        nomore (value) {
+            if (value) {
+                this.height = 0
+                for (let i = 0; i < this.visibleItems.length; i += 1) {
+                    this.height += this.visibleItems[i].height
+                }
+            }
+        },
     },
     mounted () {
         this.$el.addEventListener('scroll', this.onScroll.bind(this))
@@ -202,7 +210,9 @@ export default {
         },
         reset () {
             this.items = []
-            this.height = this.top = this.start = 0 // eslint-disable-line
+            this.height = 0
+            this.top = 0
+            this.start = 0
             this.$el.scrollTop = 0
         },
         load () {
