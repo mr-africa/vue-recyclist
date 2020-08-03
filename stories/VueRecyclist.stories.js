@@ -1,7 +1,7 @@
-import { withKnobs, number } from '@storybook/addon-knobs'
+import { withKnobs, number, boolean } from '@storybook/addon-knobs'
 import { addDecorator } from '@storybook/vue'
 
-import InfinityChat from './InfinityChat'
+import InfinityChat from './Chat'
 import Log from './Log'
 
 export default {
@@ -44,4 +44,13 @@ export const RecyclistLog = () => ({
     template: '<Log v-bind="$props" />',
 })
 
-export const RecyclistInfinityChat = () => InfinityChat
+export const RecyclistInfinityChat = () => ({
+    components: { InfinityChat },
+    props: {
+        showTombstones: {
+            type: Boolean,
+            default: boolean('show tombstones', false),
+        },
+    },
+    template: '<InfinityChat v-bind="$props" />',
+})

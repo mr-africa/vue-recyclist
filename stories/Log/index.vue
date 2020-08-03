@@ -13,11 +13,11 @@
         </div>
         <vue-recyclist
             :list="list"
-            :loadmore="loadmore"
             :fixedItemHeight="false"
             :size="recyclistSize"
             class="log-list"
             :nomore="nomore"
+            @loadmore="loadmore"
         >
             <template v-slot:item="{ data }">
                 <div

@@ -50,9 +50,9 @@ or
       :tombstone = "tombstone"
       :size = "size"
       :offset = "offset"
-      :loadmore = "loadmore"
       :spinner = "spinner"
-      :nomore = "nomore">
+      :nomore = "nomore"
+      @loadmore = "loadmore">
       <!-- header slot -->
       <template slot="header">
         ...
@@ -108,6 +108,12 @@ export default {
 | loadmore  | Function | required | The function of loading more items                              |
 | spinner   | Boolean  | true     | Whether to show loading spinner                                 |
 | nomore    | Boolean  | false    | Whether to show 'no more data' status bar                       |
+
+## Events
+
+| Event     |
+| --------- | --------------------------------------------------------------- |
+| loadmore  | The function of loading more items                              |
 
 ## Development
 
