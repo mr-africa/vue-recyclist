@@ -1,6 +1,9 @@
 <template>
     <div class="log">
         <div class="log-header">
+            <div class="log-id-cell">
+                id
+            </div>
             <div class="log-date-cell">
                 date
             </div>
@@ -14,12 +17,16 @@
             :fixedItemHeight="false"
             :size="recyclistSize"
             class="log-list"
+            :nomore="nomore"
         >
             <template v-slot:item="{ data }">
                 <div
                     :id="data.id"
                     class="log-item"
                 >
+                    <div class="log-id-cell">
+                        {{ data.id }}
+                    </div>
                     <div class="log-date-cell">
                         {{ new Date(data.timestamp).toLocaleTimeString() }}
                     </div>
@@ -63,6 +70,7 @@ export default {
             list: [],
             currentPage: 1,
             idCounter: 1,
+            nomore: false,
         }
     },
     methods: {
@@ -83,6 +91,8 @@ export default {
                 const nextPage = this.generateNextPage()
                 this.currentPage += 1
                 this.list = [...this.list, ...nextPage]
+            } else {
+                this.nomore = true
             }
         },
     },
@@ -106,6 +116,9 @@ export default {
         display: flex;
         padding: 1em;
         border-bottom: 1px dotted #ccc;
+    }
+    .log-id-cell {
+        width: 100px;
     }
     .log-date-cell {
         width: 200px;
