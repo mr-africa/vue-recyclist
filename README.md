@@ -46,31 +46,41 @@ or
   <div>
     ...
     <vue-recyclist
-      :list = "list"
-      :tombstone = "tombstone"
-      :size = "size"
-      :offset = "offset"
-      :spinner = "spinner"
-      :nomore = "nomore"
-      @loadmore = "loadmore">
+      :list="list"
+      :tombstone="tombstone"
+      :size="size"
+      :offset="offset"
+      :spinner="spinner"
+      :nomore="nomore"
+      @loadmore="loadmore">
       <!-- header slot -->
-      <template slot="header">
+      <template v-slot:header>
         ...
       </template>
+
       <!-- tombstone slot -->
-      <template slot="tombstone" scope="props">
+      <template v-slot:tombstone="props">
         ...
       </template>
+
       <!-- item slot -->
-      <template slot="item" scope="props">
+      <template v-slot:item="props">
         ...
       </template>
+
       <!-- loading spinner -->
-      <div slot="spinner">Loading...</div>
+      <template v-slot:spinner>
+        ...
+      </template>
+
       <!-- end of list -->
-      <div slot="nomore">No More Data</div>
+      <template v-slot:nomore>
+        <div>No More Data</div>
+      </template>
+
       <!-- footer slot -->
       <template slot="footer">
+      <template v-slot:footer>
         ...
       </template>
     </vue-recyclist>
