@@ -7,6 +7,7 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-param-reassign': 0,
+        'import/no-extraneous-dependencies': 0,
         indent: ['error', 4],
         semi: [2, 'never'],
         'import/extensions': ['error', 'never'],
