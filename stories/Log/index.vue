@@ -74,20 +74,27 @@ export default {
         }
     },
     watch: {
-        total () {
+        total (value) {
+            console.log('refresh total', value)
             this.refresh()
         },
-        loadPerPage () {
+        loadPerPage (value) {
+            console.log('refresh loadPerPage', value)
             this.refresh()
         },
-        recyclistSize () {
+        recyclistSize (value) {
+            console.log('refresh recyclistSize', value)
             this.refresh()
         },
     },
     methods: {
         generateNextPage () {
             const list = []
-            for (let i = 0; i < this.loadPerPage; i += 1) {
+            let itemsCount = this.loadPerPage
+            if (this.currentPage * this.loadPerPage > this.total) {
+                itemsCount = this.total - (this.currentPage - 1) * this.loadPerPage
+            }
+            for (let i = 0; i < itemsCount; i += 1) {
                 list.push({
                     id: this.idCounter,
                     timestamp: getRandomTime(),
@@ -98,7 +105,7 @@ export default {
             return list
         },
         loadmore () {
-            if (this.currentPage * this.loadPerPage <= this.total) {
+            if (this.currentPage * this.loadPerPage < this.total + this.loadPerPage) {
                 const nextPage = this.generateNextPage()
                 this.currentPage += 1
                 this.list = [...this.list, ...nextPage]
@@ -107,7 +114,6 @@ export default {
             }
         },
         refresh () {
-            console.log('refresh', this.total)
             this.list = []
             this.currentPage = 1
             this.idCounter = 1
