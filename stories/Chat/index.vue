@@ -1,16 +1,11 @@
 <template>
   <div id="app">
-    <header>
-      <h1>VueRecyclist</h1>
-      <h2>Infinite scroll list for Vue.js with DOM recycling. <a href="https://github.com/mr-africa/vue-recyclist">Github</a></h2>
-      <a @click="tombstone = !tombstone">{{ tombstone ? 'hide' : 'show'}} tombstones</a>
-    </header>
     <vue-recyclist
       class="list"
       :list="list"
-      :tombstone="tombstone"
+      :tombstone="showTombstones"
       :size="size"
-      :loadmore="loadmore"
+      @loadmore="loadmore"
     >
       <template v-slot:tombstone>
         <div class="item tombstone">
@@ -55,16 +50,21 @@
         <img src="./images/avatar2.jpg"/>
         <img src="./images/avatar3.jpg"/>
     </div>
-    <p class="info">Inspired by <a href="https://developers.google.com/web/updates/2016/07/infinite-scroller">Complexities of an Infinite Scroller</a></p>
   </div>
 </template>
 
 <script>
 import Data from './data'
-import VueRecyclist from '../src'
+import VueRecyclist from '../../src'
 
 export default {
     name: 'example-app',
+    props: {
+        showTombstones: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data () {
         return {
         // data
@@ -73,23 +73,11 @@ export default {
             // list
             list: [],
             size: 20,
-            tombstone: !+localStorage.tombstone,
         }
     },
     components: {
         'vue-recyclist': VueRecyclist,
     },
-    watch: {
-        tombstone (val) {
-            localStorage.tombstone = +!val
-            this.id = 0
-            this.list = []
-            this.loadmore()
-        },
-    },
-    // created () {
-    //     this.addStatsPanel()
-    // },
     methods: {
         getItem (id) {
             const avatar = Math.floor(Math.random() * Data.avatars)
@@ -115,24 +103,6 @@ export default {
         itemClicked (props) {
             console.log(`Item:${props.index}`, props.data)
         },
-        // addStatsPanel () {
-        //     if (window.requestIdleCallback) {
-        //         const self = this
-        //         const stats = new Stats()
-        //         const domPanel = new Stats.Panel('D', '#0ff', '#002')
-        //         stats.addPanel(domPanel)
-        //         stats.showPanel(3)
-        //         document.body.appendChild(stats.dom)
-        //         setTimeout(function timeoutFunc () {
-        //             // Only update DOM node graph when we have time to spare to call
-        //             // numDomNodes(), which is a fairly expensive function.
-        //             requestIdleCallback(() => {
-        //                 domPanel.update(self.numDomNodes(document.body), 1500)
-        //                 setTimeout(timeoutFunc, 100)
-        //             })
-        //         }, 100)
-        //     }
-        // },
         numDomNodes (node) {
             if (!node.children || node.children.length === 0) return 0
             const childrenCount = Array.from(node.children).map(this.numDomNodes)
@@ -160,7 +130,6 @@ export default {
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
         overflow: hidden;
-        padding: 120px 20px 50px;
         height: 400px;
         background: #fff
     }

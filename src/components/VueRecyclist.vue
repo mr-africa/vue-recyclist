@@ -110,10 +110,6 @@ export default {
             type: Number,
             default: 200, // The number of pixels of additional length to allow scrolling to.
         },
-        loadmore: {
-            type: Function,
-            required: true, // The function of loading more items.
-        },
         spinner: {
             type: Boolean,
             default: true, // Whether to show loading spinner.
@@ -222,7 +218,7 @@ export default {
         },
         getItems () {
             this.loadings.push(1)
-            this.loadmore()
+            this.$emit('loadmore')
         },
         loadItems () {
             const loads = []
