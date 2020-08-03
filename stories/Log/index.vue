@@ -74,20 +74,27 @@ export default {
         }
     },
     watch: {
-        total () {
+        total (value) {
+            console.log('refresh total', value)
             this.refresh()
         },
-        loadPerPage () {
+        loadPerPage (value) {
+            console.log('refresh loadPerPage', value)
             this.refresh()
         },
-        recyclistSize () {
+        recyclistSize (value) {
+            console.log('refresh recyclistSize', value)
             this.refresh()
         },
     },
     methods: {
         generateNextPage () {
             const list = []
-            for (let i = 0; i < this.loadPerPage; i += 1) {
+            let itemsCount = this.loadPerPage
+            if (this.currentPage * this.loadPerPage > this.total) {
+                itemsCount = this.total - (this.currentPage - 1) * this.loadPerPage
+            }
+            for (let i = 0; i < itemsCount; i += 1) {
                 list.push({
                     id: this.idCounter,
                     timestamp: getRandomTime(),
@@ -98,7 +105,7 @@ export default {
             return list
         },
         loadmore () {
-            if (this.currentPage * this.loadPerPage <= this.total) {
+            if (this.currentPage * this.loadPerPage < this.total + this.loadPerPage) {
                 const nextPage = this.generateNextPage()
                 this.currentPage += 1
                 this.list = [...this.list, ...nextPage]
@@ -107,7 +114,6 @@ export default {
             }
         },
         refresh () {
-            console.log('refresh', this.total)
             this.list = []
             this.currentPage = 1
             this.idCounter = 1
@@ -119,8 +125,7 @@ export default {
 
 <style>
     .log {
-        border: 1px dotted #ccc;
-        margin: 2em;
+        padding: 0 2em;
     }
     .log-header {
         display: flex;
@@ -128,7 +133,8 @@ export default {
         background-color: #ccc;
     }
     .log-list {
-        max-height: 300px;
+        height: 300px;
+        border: 1px dotted #ccc;
     }
     .log-item {
         display: flex;
@@ -136,10 +142,10 @@ export default {
         border-bottom: 1px dotted #ccc;
     }
     .log-id-cell {
-        width: 100px;
+        min-width: 100px;
     }
     .log-date-cell {
-        width: 200px;
+        min-width: 200px;
     }
     .log-message-cell {
         flex-grow: 1;

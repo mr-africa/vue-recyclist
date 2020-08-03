@@ -160,7 +160,7 @@ export default {
             return firstItem ? firstItem.top : '0'
         },
         containerHeight () {
-            return this.$el && this.$el.offsetHeight || 0 // eslint-disable-line
+            return this.$el ? this.$el.offsetHeight : 0
         },
         tombHeight () {
             return this.tombstone ? this.$refs.tomb && this.$refs.tomb.offsetHeight : 0
@@ -187,10 +187,7 @@ export default {
         },
         nomore (value) {
             if (value) {
-                this.height = 0
-                for (let i = 0; i < this.visibleItems.length; i += 1) {
-                    this.height += this.visibleItems[i].height
-                }
+                this.height = this.containerHeight
             }
         },
     },
@@ -274,12 +271,13 @@ export default {
         },
         updateItemTop () {
             // loop all items to update item top and list height
-            this.height = 0
+            let height = 0
             for (let i = 0; i < this.items.length; i += 1) {
                 const pre = this.items[i - 1]
                 this.items[i].top = pre ? pre.top + pre.height : 0
-                this.height += this.items[i].height
+                height += this.items[i].height
             }
+            this.height = height
             // update scroll top when needed
             if (this.startOffset) {
                 this.setScrollTop()
