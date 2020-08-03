@@ -73,6 +73,17 @@ export default {
             nomore: false,
         }
     },
+    watch: {
+        total () {
+            this.refresh()
+        },
+        loadPerPage () {
+            this.refresh()
+        },
+        recyclistSize () {
+            this.refresh()
+        },
+    },
     methods: {
         generateNextPage () {
             const list = []
@@ -87,13 +98,20 @@ export default {
             return list
         },
         loadmore () {
-            if (this.currentPage * this.loadPerPage < this.total) {
+            if (this.currentPage * this.loadPerPage <= this.total) {
                 const nextPage = this.generateNextPage()
                 this.currentPage += 1
                 this.list = [...this.list, ...nextPage]
             } else {
                 this.nomore = true
             }
+        },
+        refresh () {
+            console.log('refresh', this.total)
+            this.list = []
+            this.currentPage = 1
+            this.idCounter = 1
+            this.nomore = false
         },
     },
 }
