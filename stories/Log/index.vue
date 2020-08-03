@@ -125,8 +125,7 @@ export default {
 
 <style>
     .log {
-        border: 1px dotted #ccc;
-        margin: 2em;
+        padding: 0 2em;
     }
     .log-header {
         display: flex;
@@ -134,7 +133,8 @@ export default {
         background-color: #ccc;
     }
     .log-list {
-        max-height: 300px;
+        height: 300px;
+        border: 1px dotted #ccc;
     }
     .log-item {
         display: flex;
@@ -142,10 +142,10 @@ export default {
         border-bottom: 1px dotted #ccc;
     }
     .log-id-cell {
-        width: 100px;
+        min-width: 100px;
     }
     .log-date-cell {
-        width: 200px;
+        min-width: 200px;
     }
     .log-message-cell {
         flex-grow: 1;
