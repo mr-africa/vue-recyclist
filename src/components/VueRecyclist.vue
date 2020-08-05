@@ -43,7 +43,10 @@
             </div>
 
             <!--get tombstone and item heights from these invisible doms-->
-            <div class="vue-recyclist-pool">
+            <div :class="[
+                'vue-recyclist__pool',
+                nomore ? 'vue-recyclist__pool--nomore' : null,
+            ]">
                 <div
                     :ref="'item'+index"
                     v-for="(item, index) in items"
@@ -398,5 +401,9 @@ export default {
         bottom: 0;
         align-self: flex-end;
         transform: translate3d(0,0,0);
+    }
+
+    .vue-recyclist__pool--nomore {
+        display: none;
     }
 </style>
